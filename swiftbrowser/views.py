@@ -200,6 +200,15 @@ def upload(request, container, prefix=None):
 
     prefixes = prefix_list(prefix)
 
+    if request.method == 'POST':
+        post_file = request.FILES['file1']
+        try:
+            client.put_object(storage_url, auth_token, container, post_file.name, post_file)
+            return redirect(objectview, container=container)
+        except client.ClientException:
+            traceback.print_exc()
+            messages.add_message(request, messages.ERROR, _("Access denied."))
+
     return render_to_response('upload_form.html', {
                               'swift_url': swift_url,
                               'redirect_url': redirect_url,

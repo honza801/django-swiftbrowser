@@ -35,6 +35,23 @@ Quick Install
 
 4) Open "http://127.0.0.1:8000/" in your browser and use 'account:username' to login (or tenant/project:username if using Keystone).
 
+Running with apache2 mod wsgi
+-------
+
+    <VirtualHost *:8080>
+    ...
+    Alias /ajax /path/to/django-swiftbrowser/ajax
+    
+    WSGIDaemonProcess swiftbrowser processes=2
+    WSGIProcessGroup swiftbrowser
+    WSGIScriptAlias / /path/to/django-swiftbrowser/wsgi.py
+    
+    <Directory /path/to/django-swiftbrowser>
+        Require all granted
+    </Directory>
+    
+    </VirtualHost>
+
 
 Screenshots
 -----------

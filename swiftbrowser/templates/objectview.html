@@ -5,22 +5,22 @@
 {% load lastpart %}
 {% block content %}
 
+{% include 'pleasewaitdialog.html' %}
+
 <div class="container">
 {% include "messages.html" %}
 
-        <ul class="breadcrumb">
+        <ol class="breadcrumb">
             <li><a href="{% url "containerview" %}">Containers</a></li> 
-            <li><span class="divider">/</span>
-                <a class="u" href="{% url "objectview" container=container %}">{{container}}</a></li>
+            <li><a href="{% url "objectview" container=container %}">{{container}}</a></li>
 
             {% for prefix in prefixes %}
                 <li>
-                    <span class="divider">/</span>
                     <a href="{% url "objectview" container=container prefix=prefix.full_name %}">{{prefix.display_name}}</a>
                 </li>
             {% endfor %}
 
-       </ul> 
+       </ol> 
     {% if public %}
             
         <div class="alert alert-info">
@@ -35,14 +35,14 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 0.5em;" class="hidden-phone"></th>
+            <th style="width: 0.5em;" class="hidden-xs"></th>
             <th>{% trans 'Name' %}</th>
-            <th style="width: 12.5em;" class="hidden-phone">{% trans 'Created' %}</th>
-            <th style="width: 6em;" class="hidden-phone">{% trans 'Size' %}</th>
+            <th style="width: 12.5em;" class="hidden-xs">{% trans 'Created' %}</th>
+            <th style="width: 6em;" class="hidden-xs">{% trans 'Size' %}</th>
             <th style="width: 1em;">
                 <div class="dropdown pull-right">
-                <a class="dropdown-toggle btn btn-mini btn-danger" data-toggle="dropdown">
-                    <i class="icon-plus icon-white"></i>
+                <a class="dropdown-toggle btn btn-default btn-xs btn-danger" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-plus"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li>
@@ -51,7 +51,7 @@
                         {% else %}
                         <a href="{% url "upload" container=container %}">
                         {% endif %}
-                        <i class="icon-upload"></i> Upload
+                        <i class="glyphicon glyphicon-upload"></i> Upload
                         </a>
                     </li>
                     <li class="divider" />
@@ -61,7 +61,7 @@
                         {% else %}
                         <a href="{% url "create_pseudofolder" container=container %}">
                         {% endif %}
-                        <i class="icon-folder-open"></i> Create pseudofolder
+                        <i class="glyphicon glyphicon-folder-open"></i> Create pseudofolder
                         </a>
                     </li>
                 </ul>
@@ -73,32 +73,32 @@
         <tbody>
         {% for folder in folders %}
             <tr>
-                <td class="hidden-phone"><i class="icon-inbox"></i></td>
+                <td class="hidden-xs"><i class="glyphicon glyphicon-inbox"></i></td>
                 <td> 
                     <a href="{% url "objectview" container=container prefix=folder.0 %}"><strong>{{folder.0|lastpart}}</strong></a>
                 </td>
-                <td class="hidden-phone"></td>
-                <td class="hidden-phone"></td>
+                <td class="hidden-xs"></td>
+                <td class="hidden-xs"></td>
 
                     <td>
-                    <a href="{% url "delete_object" container=container objectname=folder.1 %}" class="btn btn-mini btn-danger" onclick="return confirm('{% trans 'Delete object' %} {{key.name}}?');" ><i class="icon-trash icon-white"></i></a>
+                    <a href="{% url "delete_object" container=container objectname=folder.1 %}" class="btn btn-default btn-xs btn-danger" onclick="return confirm('{% trans 'Delete object' %} {{key.name}}?');" ><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
             </tr>
         {% endfor %}
 
         {% for key in objects %}
             <tr>
-                <td class="hidden-phone"><i class="icon-file"></i></td>
+                <td class="hidden-xs"><i class="glyphicon glyphicon-file"></i></td>
                 <td><a href="{% url "download" container=container objectname=key.name %}" class="block">{{key.name|lastpart}}</a></td>
-                <td class="hidden-phone">{{key.last_modified|dateconv|date:"SHORT_DATETIME_FORMAT"}}</td>
-	            <td class="hidden-phone">{{key.bytes|filesizeformat}}</td>
+                <td class="hidden-xs">{{key.last_modified|dateconv|date:"SHORT_DATETIME_FORMAT"}}</td>
+	            <td class="hidden-xs">{{key.bytes|filesizeformat}}</td>
                     <td>
                     <div class="dropdown pull-right">
-                        <a class="dropdown-toggle btn btn-mini btn-danger" data-toggle="dropdown"><i class="icon-chevron-down icon-white"></i></a>
+                        <a class="dropdown-toggle btn btn-default btn-xs btn-danger" data-toggle="dropdown"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{% url "tempurl" container=container objectname=key.name %}"><i class="icon-time"></i> {% trans 'Temporary URL' %}</a></li>
+                            <li><a href="{% url "tempurl" container=container objectname=key.name %}"><i class="glyphicon glyphicon-time"></i> {% trans 'Temporary URL' %}</a></li>
                             <li class="divider" />
-                            <li><a href="{% url "delete_object" container=container objectname=key.name  %}" onclick="return confirm('{% trans 'Delete object' %} {{key.name}}?');" ><i class="icon-trash"></i> Delete object</a></li>
+                            <li><a href="{% url "delete_object" container=container objectname=key.name  %}" onclick="return confirm('{% trans 'Delete object' %} {{key.name}}?');" ><i class="glyphicon glyphicon-trash"></i> Delete object</a></li>
                         </ul>
                     </div>
                 </td>
@@ -117,7 +117,58 @@
         {% endif %}
         <tfoot><tr><td colspan="5"></td></tr></tfoot>
     </table>
+    <form id="dropzone" action="/upload/{{ container }}/" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="redirect" value="{{ redirect_url }}" />
+    <input type="hidden" name="max_file_size" value="{{ max_file_size }}" />
+    <input type="hidden" name="max_file_count" value="{{ max_file_count }}" />
+    <input type="hidden" name="expires" value="{{ expires }}" />
+    <input type="hidden" name="signature" value="{{ signature }}" />
+    {% csrf_token %}
+    <div class="well">
+    <input type="text" name="filetmp" id="filetmp" placeholder="{% trans 'Drop file here' %}" class="form-control">
+    </div>
+    </form>
 </div>
 {% endblock %}
-    {% block jsadd %} <script type="text/javascript"> $('input[id=file]').change(function() { $('#filetmp').val($(this).val()); }); </script> {% endblock %}
 
+{% block jsadd %}
+<script type="text/javascript">
+// https://css-tricks.com/drag-and-drop-file-uploading/
+function handleUpload(file) {
+    var form = $('#dropzone');
+    var formData = new FormData(form.get(0));
+    formData.append('file', file);
+    
+    $.ajax({
+        url: form.attr('action'),
+        method: form.attr('method'),
+        data: formData,
+        dataType: 'json',
+        cache: false,
+        contentType: false,
+        processData: false,
+        complete: function() { location.reload(); },
+    });
+}
+
+$(document).ready(function () {
+    $(document).on('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    $(document).on('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    $('#dropzone').on('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        showPleaseWaitDialog();
+        files = e.originalEvent.dataTransfer.files;
+        $.each(files, function(index, file) {
+            handleUpload(file);
+        });
+    });
+});
+</script>
+{% endblock %}

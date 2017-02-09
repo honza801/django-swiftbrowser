@@ -10,34 +10,30 @@
 
         <ul class="breadcrumb">
             <li><a href="{% url "containerview" %}">Containers</a></li> 
-            <li><span class="divider">/</span>
-                <a class="u" href="{% url "objectview" container=container %}">{{container}}</a></li>
+            <li><a href="{% url "objectview" container=container %}">{{container}}</a></li>
 
             {% for prefix in prefixes %}
                 <li>
-                    <span class="divider">/</span>
                     <a href="{% url "objectview" container=container prefix=prefix.full_name %}">{{prefix.display_name}}</a>
                 </li>
             {% endfor %}
        </ul> 
 
-<form method="POST" class="form-horizontal">
+<form method="POST">
     <fieldset>
     <legend>{% trans 'Create a new pseudofolder' %}</legend>
     {% csrf_token %}
   
-    <div class="control-group">
-        <label class="control-label" for="foldername">{% trans "Foldername" %}</label>
-        <div class="controls">
-            <input id="foldername" name="foldername" class="input-xlarge" type="text" placeholder="{% trans "Foldername" %}">
-            <span class="help-block">
-                {% trans "Enter name of pseudofolder here." %}
-                {% trans "Please note that you can not rename it afterwards." %}
-            </span>
-        </div>
+    <div class="form-group">
+        <label for="foldername">{% trans "Foldername" %}</label>
+        <input id="foldername" name="foldername" class="form-control" type="text" placeholder="{% trans "Foldername" %}">
+        <span class="help-block">
+            {% trans "Enter name of pseudofolder here." %}
+            {% trans "Please note that you can not rename it afterwards." %}
+        </span>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">{% trans 'Create' %}</button>
             {% if prefix %}

@@ -1,22 +1,30 @@
 {% extends "core.html" %}
 {% load i18n %}
     {% block head %}
-    <div class="navbar navbar-inver navbar-fixed-top">
-        <div class="navbar-inner">
+    <nav class="navbar navbar-default">
             <div class="container">
-                <a class="brand" href="{% url "containerview" %}">Swiftbrowser</a>
-                    <ul class="nav pull-right">
+                <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button> 
+                <a class="navbar-brand" href="{% url "containerview" %}">Swiftbrowser</a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
                     {% if session.username %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <strong class="hidden-phone">{{session.username}}</strong>
+                                <strong class="hidden-xs">{{session.username}}</strong>
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 {% block menu_addons %}{% endblock %}
                                 <li>
                                     <a href="{% url "login" %}">
-                                    <i class="icon-remove-sign"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                     {% trans 'Logout' %}
                                     </a>
                                 </li>
@@ -31,8 +39,8 @@
                     {% endif %}
                     </ul>
                 </div>
-            </div>
-        </div>
+                </div>
+        </nav>
 
         <noscript>
             <div class="container">

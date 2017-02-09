@@ -45,12 +45,14 @@
                 {% endif %}
             {% endfor %}
         {% endif %}
-        <fieldset>
-            <label><b>{% trans 'Username' %}</b></label>
-            <input class="focused input-block-level input-small"  name="username" type="text" placeholder="{% trans 'Username' %}">
-            <label><b>{% trans 'Password' %}</b></label>
-            <input class="focused input-block-level" name="password" type="password" placeholder="{% trans 'Password' %}">
-        </fieldset>
+        <div class="form-group">
+            <label for="username">{% trans 'Username' %}</label>
+            <input class="form-control"  name="username" type="text" placeholder="{% trans 'Username' %}">
+        </div>
+        <div class="form-group">
+            <label for="password">{% trans 'Password' %}</label>
+            <input class="form-control" name="password" type="password" placeholder="{% trans 'Password' %}">
+        </div>
     </div>
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary">{% trans 'Login' %} <span class="icon-chevron-right icon-white"></span></button>

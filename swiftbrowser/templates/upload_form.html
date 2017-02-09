@@ -10,19 +10,17 @@
 
         <ul class="breadcrumb">
             <li><a href="{% url "containerview" %}">Containers</a></li> 
-            <li><span class="divider">/</span>
-                <a class="u" href="{% url "objectview" container=container %}">{{container}}</a></li>
-
+            <li><a href="{% url "objectview" container=container %}">{{container}}</a></li> 
+            
             {% for prefix in prefixes %}
                 <li>
-                    <span class="divider">/</span>
                     <a href="{% url "objectview" container=container prefix=prefix.full_name %}">{{prefix.display_name}}</a>
                 </li>
             {% endfor %}
        </ul> 
 
 
-<form method="POST" class="form-horizontal" enctype="multipart/form-data">
+<form method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="redirect" value="{{ redirect_url }}" />
     <input type="hidden" name="max_file_size" value="{{ max_file_size }}" />
@@ -35,21 +33,16 @@
     <legend>{% trans 'Upload a file' %}</legend>
     {% csrf_token %}
   
-    <div class="control-group">
-        <label class="control-label" for="foldername">{% trans "File" %}</label>
-        <div class="controls">
-            <div class="input-append">
-            <input id="filetmp" name="filetmp" class="input-xlarge" type="text" placeholder="Select a file">
-            <a class="btn" onclick="$('input[id=file]').click();">{% trans 'Browse' %}</a>
-            </div>
- 
-            <span class="help-block">
-                {% trans "Please select a file to upload" %}
-            </span>
-        </div>
+    <div class="form-group">
+        <label for="foldername">{% trans "File" %}</label>
+        <input id="filetmp" name="filetmp" class="form-control" type="text" placeholder="Select a file">
+        <a class="btn btn-default" onclick="$('input[id=file]').click();">{% trans 'Browse' %}</a>
+        <span class="help-block">
+            {% trans "Please select a file to upload" %}
+        </span>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">{% trans 'Start upload' %}</button>
             {% if prefix %}

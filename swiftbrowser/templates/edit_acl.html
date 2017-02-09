@@ -15,10 +15,10 @@
 
     {% if public %}
     <div class="alert alert-info">
-        <strong>URL for this public readable container: <u>
-            <a href="{{ base_url }}{% url "public_objectview" account=account container=container %}" target="new">
+        <strong>URL for this public readable container:
+            <u><a href="{{ base_url }}{% url "public_objectview" account=account container=container %}" target="new">
                 {{ base_url }}{% url "public_objectview" account=account container=container %}
-            </a>
+            </a></u>
         </strong>
     </div>
     {% endif %}
@@ -29,14 +29,14 @@
     <thead>
    
     <tr>
-        <th style="width: 1em;" class="hidden-phone"></th>
+        <th style="width: 1em;" class="hidden-xs"></th>
         <th>Name</th>
         <th style="width: 7.5em;"></th>
         <th style="width: 1em;">
 
 
             <div class="dropdown pull-right">
-                        <a class="dropdown-toggle btn btn-mini btn-danger" data-toggle="dropdown"><i class="icon-chevron-down icon-white"></i></a>
+                        <a class="dropdown-toggle btn btn-default btn-xs btn-danger" data-toggle="dropdown"><i class="glyphicon glyphicon-chevron-down"></i></a>
                         <ul class="dropdown-menu">
                             <li>
                             {% if not public %}
@@ -45,13 +45,13 @@
                                     <input name="username" type="hidden" value=".r:*,.rlistings">
                                     <input name="read" type="hidden" value="On">
                                 </form>
-                                <a href="#" onclick="mkpublic.submit()"><i class="icon-eye-open"></i> Make public</a>
+                                <a href="#" onclick="mkpublic.submit()"><i class="glyphicon glyphicon-eye-open"></i> Make public</a>
                             {% else %}
-                                <a href="{% url "edit_acl" container=container%}?delete=.r:*,.rlistings"><i class="icon-eye-close"></i> Make private</a>
+                                <a href="{% url "edit_acl" container=container%}?delete=.r:*,.rlistings"><i class="glyphicon glyphicon-eye-close"></i> Make private</a>
                             {% endif %}
                             </li>
                             <li class="divider" />
-                            <li><a href="#addacl_modal" data-toggle="modal"><i class="icon-user"></i> Add ACL</a></li>
+                            <li><a href="#addacl_modal" data-toggle="modal"><i class="glyphicon glyphicon-user"></i> Add ACL</a></li>
                         </ul>
                     </div>
 
@@ -62,12 +62,12 @@
     <tbody>
     {% for user, permission in acls.items %}
             <tr>
-                <td class="hidden-phone"><i class="icon-user"></i></td>
+                <td class="hidden-xs"><i class="glyphicon glyphicon-user"></i></td>
                 <td>
                 {% if user == ".rlistings" %}
-                    {{user}} <a href="#" data-toggle="tooltip" title="This entry allows the listing of objects and is required for public readable containers."><i class=" icon-question-sign"></i></a>
+                    {{user}} <a href="#" data-toggle="tooltip" title="This entry allows the listing of objects and is required for public readable containers."><i class=" glyphicon glyphicon-question-sign"></i></a>
                 {% elif user == ".r:*" %}
-                    {{user}} <a href="#" data-toggle="tooltip" title="This entry allows the download of objects and is required for public readable containers."><i class=" icon-question-sign"></i></a>
+                    {{user}} <a href="#" data-toggle="tooltip" title="This entry allows the download of objects and is required for public readable containers."><i class=" glyphicon glyphicon-question-sign"></i></a>
                 {% else %}
                 {{user}}
                 {% endif %}
@@ -76,15 +76,15 @@
         
                 <td style="text-align:right;">
                     {% if permission.read %}
-                        <a class="btn btn-mini btn-success">Read</a> 
+                        <a class="btn btn-default btn-xs btn-success">Read</a> 
             {% endif %}
             {% if permission.write %}
-                <a class="btn btn-mini btn-danger">Write</a> 
+                <a class="btn btn-default btn-xs btn-danger">Write</a> 
             {% endif %}
         </td>
 
          <td>
-            <a class="btn btn-mini btn-danger" href="{% url "edit_acl" container=container%}?delete={{ user }}"><i class="icon-trash icon-white"></i></a>
+            <a class="btn btn-default btn-xs btn-danger" href="{% url "edit_acl" container=container%}?delete={{ user }}"><i class="glyphicon glyphicon-trash"></i></a>
         </td>
         </tr> 
     

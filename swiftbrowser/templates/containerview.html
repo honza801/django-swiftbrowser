@@ -13,14 +13,14 @@
         
         <thead>
             <tr>
-                <th style="width: 1em;" class="hidden-phone"></th>
+                <th style="width: 1em;" class="hidden-xs"></th>
                 <th>{% trans 'Name' %}</th>
-                <th style="width: 1em;" class="hidden-phone">{% trans 'Objects' %}</th>
-                <th style="width: 5em;" class="hidden-phone">{% trans 'Size' %}</th>
+                <th style="width: 1em;" class="hidden-xs">{% trans 'Objects' %}</th>
+                <th style="width: 5em;" class="hidden-xs">{% trans 'Size' %}</th>
                 <th style="width: 1em;">
 
-                <a href="{% url "create_container" %}" class="btn btn-mini btn-danger">
-                    <i class="icon-plus icon-white"></i> 
+                <a href="{% url "create_container" %}" class="btn btn-default btn-xs btn-danger">
+                    <i class="glyphicon glyphicon-plus"></i> 
                 </a>
 
                 </th>
@@ -29,24 +29,24 @@
         <tbody>
         {% for container in containers %}
             <tr>
-            <td class="hidden-phone"><i class="icon-inbox"></i></td>
+            <td class="hidden-xs"><i class="glyphicon glyphicon-inbox"></i></td>
             <td><strong><a href="{% url "objectview" container=container.name %}" class="block">{{container.name}}</a></strong></td>
-    	    <td class="hidden-phone">{{container.count}}</td>
-    	    <td class="hidden-phone">{{container.bytes|filesizeformat}}</td>
+    	    <td class="hidden-xs">{{container.count}}</td>
+    	    <td class="hidden-xs">{{container.bytes|filesizeformat}}</td>
 
             <td>
                 <div class="dropdown pull-right">
-                    <a class="dropdown-toggle btn btn-mini btn-danger" data-toggle="dropdown"><i class="icon-chevron-down icon-white"></i></a>
+                    <button class="btn btn-default dropdown-toggle btn-xs btn-danger" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
                     <ul class="dropdown-menu">
                         {% url "edit_acl" container=container.name as edit_acl_url %}
                         {% if edit_acl_url %}
-                            <li><a href="{{ edit_acl_url }}"><i class="icon-user"></i> {% trans 'Sharing' %}</a></li>
-                            <li class="divider" />
+                            <li><a href="{{ edit_acl_url }}"><i class="glyphicon glyphicon-user"></i> {% trans 'Sharing' %}</a></li>
+                            <li role="separator" class="divider" />
                         {% endif %}
  
                         <li>
                             <a href="{% url "delete_container" container=container.name %}" onclick="return confirm('{% trans 'Delete container' %} {{container.name}}?');">
-                                <i class="icon-trash"></i> {% trans 'Delete container' %}
+                                <i class="glyphicon glyphicon-trash"></i> {% trans 'Delete container' %}
                             </a>
                         </li>
                     </ul>

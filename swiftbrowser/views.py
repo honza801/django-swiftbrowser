@@ -201,7 +201,7 @@ def upload(request, container, prefix=None):
     prefixes = prefix_list(prefix)
 
     if request.method == 'POST':
-        post_file = request.FILES['file1']
+        post_file = request.FILES.values().pop()
         try:
             client.put_object(storage_url, auth_token, container, post_file.name, post_file)
             return redirect(objectview, container=container)

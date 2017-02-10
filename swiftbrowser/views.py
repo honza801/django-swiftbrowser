@@ -6,6 +6,7 @@ import urlparse
 import hmac
 import traceback
 from hashlib import sha1
+import requests
 
 from swiftclient import client
 
@@ -44,6 +45,19 @@ def login(request):
         except client.ClientException:
             traceback.print_exc()
             messages.add_message(request, messages.ERROR, _("Login failed."))
+
+    if 'REMOTE_USER' in request.META.keys():
+        try:
+            headers = { 'REMOTE_USER': request.META.get('REMOTE_USER') }
+            auth = requests.get(settings.SWIFT_HTTP_AUTH_URL, headers=headers)
+            request.session['auth_token'] = auth.headers['x-auth-token']
+            request.session['storage_url'] = auth.headers['x-storage-url']
+            request.session['username'] = request.META.get('REMOTE_USER').split('@')[0]
+            return redirect(containerview)
+        except Exception:
+            traceback.print_exc()
+            messages.add_message(request, messages.ERROR,
+                                 _("Login with REMOTE_USER failed."))
 
     return render_to_response('login.html', {'form': form, },
                               context_instance=RequestContext(request))

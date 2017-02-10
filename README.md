@@ -11,6 +11,12 @@ Simple web app build with Django and Twitter Bootstrap to access Openstack Swift
 * Minimal interface, usable on your desktop as well as on your smartphone
 * Screenshots anyone? See below!
 
+Requirements
+------------
+
+* jquery 3.1.1 https://jquery.com/download/
+* bootstrap 3.3.7 http://getbootstrap.com/getting-started/
+
 Quick Install
 -------------
 

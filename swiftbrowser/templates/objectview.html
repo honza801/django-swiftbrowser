@@ -117,7 +117,7 @@
         {% endif %}
         <tfoot><tr><td colspan="5"></td></tr></tfoot>
     </table>
-    <form id="dropzone" action="/upload/{{ container }}/" method="post" enctype="multipart/form-data">
+    <form id="dropzone" action="/upload/{{ container }}/{{ prefix|default:"" }}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="redirect" value="{{ redirect_url }}" />
     <input type="hidden" name="max_file_size" value="{{ max_file_size }}" />
     <input type="hidden" name="max_file_count" value="{{ max_file_count }}" />

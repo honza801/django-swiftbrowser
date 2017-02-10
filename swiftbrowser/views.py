@@ -216,9 +216,16 @@ def upload(request, container, prefix=None):
 
     if request.method == 'POST':
         post_file = request.FILES.values().pop()
+        if prefix:
+            post_file_name = prefix + post_file.name
+        else:
+            post_file_name = post_file.name
         try:
-            client.put_object(storage_url, auth_token, container, post_file.name, post_file)
-            return redirect(objectview, container=container)
+            client.put_object(storage_url, auth_token, container, post_file_name, post_file)
+            if prefix:
+                return redirect(objectview, container=container, prefix=prefix)
+            else:
+                return redirect(objectview, container=container)
         except client.ClientException:
             traceback.print_exc()
             messages.add_message(request, messages.ERROR, _("Access denied."))

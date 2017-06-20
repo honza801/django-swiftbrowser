@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load dateconv %}
 {% load lastpart %}
+{% load staticfiles %}
 {% block content %}
 
 {% include 'pleasewaitdialog.html' %}
@@ -132,43 +133,5 @@
 {% endblock %}
 
 {% block jsadd %}
-<script type="text/javascript">
-// https://css-tricks.com/drag-and-drop-file-uploading/
-function handleUpload(file) {
-    var form = $('#dropzone');
-    var formData = new FormData(form.get(0));
-    formData.append('file', file);
-    
-    $.ajax({
-        url: form.attr('action'),
-        method: form.attr('method'),
-        data: formData,
-        dataType: 'json',
-        cache: false,
-        contentType: false,
-        processData: false,
-        complete: function() { location.reload(); },
-    });
-}
-
-$(document).ready(function () {
-    $(document).on('drop', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-    $(document).on('dragover', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
-    $('#dropzone').on('drop', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        showPleaseWaitDialog();
-        files = e.originalEvent.dataTransfer.files;
-        $.each(files, function(index, file) {
-            handleUpload(file);
-        });
-    });
-});
-</script>
+<script src="{% static "pleasewaitdialog.js" %}"></script>
 {% endblock %}

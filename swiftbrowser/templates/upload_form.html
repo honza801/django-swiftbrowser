@@ -3,7 +3,10 @@
 {% load i18n %}
 {% load dateconv %}
 {% load lastpart %}
+{% load staticfiles %}
 {% block content %}
+
+{% include 'pleasewaitdialog.html' %}
 
 <div class="container">
 {% include "messages.html" %}
@@ -20,7 +23,7 @@
        </ul> 
 
 
-<form method="POST" enctype="multipart/form-data">
+<form id="dropzone" method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="redirect" value="{{ redirect_url }}" />
     <input type="hidden" name="max_file_size" value="{{ max_file_size }}" />
@@ -45,7 +48,7 @@
     <div class="form-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary">{% trans 'Start upload' %}</button>
-            {% if prefix %}
+    {% if prefix %}
         <a href="{% url "objectview" container=container prefix=prefix %}" class="btn" >
     {% else %}
         <a href="{% url "objectview" container=container %}" class="btn" >
@@ -67,5 +70,6 @@ $('input[id=file]').change(function() {
     $('#filetmp').val(last_part($(this).val()));
 });
 </script>
+<script src="{% static "pleasewaitdialog.js" %}"></script>
 {% endblock %}
 

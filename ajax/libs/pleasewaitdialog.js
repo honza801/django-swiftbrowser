@@ -10,14 +10,15 @@ function handleUpload(file) {
     xhr.upload.addEventListener('progress', function(event) {
         var percent = (100 * event.loaded / event.total);
         $(".progress-bar").text(Math.round(percent) + "%");
+        if (percent == 100) {
+            $('#pleaseWaitDialog').find('.modal-title').text('Processing...');
+        }
     });
     xhr.addEventListener('readystatechange', function(event) {
         if (event.target.readyState == 4 && event.target.responseText) {
             // we got a response from the server and we're replacing the whole
             // current document content with it, simulating a page reload
-            var newDocument = document.open('text/html', 'replace');
-            newDocument.write(event.target.responseText);
-            newDocument.close();
+            location.replace(formData.get('redirect'));
         } else {
             //throw new Error('Error in the response.');
         }

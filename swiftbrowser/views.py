@@ -186,8 +186,8 @@ def upload(request, container, prefix=None):
     storage_url = request.session.get('storage_url', '')
     auth_token = request.session.get('auth_token', '')
 
-    redirect_url = get_base_url(request)
-    redirect_url += reverse('objectview', kwargs={'container': container, })
+    #redirect_url = get_base_url(request)
+    redirect_url = reverse('objectview', kwargs={'container': container, })
 
     swift_url = storage_url + '/' + container + '/'
     if prefix:
